@@ -8,7 +8,8 @@ class App extends React.Component {
 
     state = {
         videos: [],
-        selectedVideo: null
+        selectedVideo: null,
+        error: false
     };
 
     componentDidMount() {
@@ -16,20 +17,27 @@ class App extends React.Component {
     }
 
     onTermSubmit = async (term) => {
-        const response = await youtube.get('/search', {
-            params:{
-                part: 'snippet',
-                maxResults: 5,
-                key: 'AIzaSyD7moKkzIE-4s1qxm-wDp1NHScUx-xRGMc',
-                q: term
-            }
-        });
+        try {
+            const response = await youtube.get('/search', {
+                params:{
+                    id: "7lCDEYXw3mM",
+                    part: 'snippet',
+                    maxResults: 5,
+                    key: 'AIzaSyAb5cs2M-tEPC7hGhXiU4mNHKpugVf7vpk',
+                    q: term
+                }
+            });
+            this.setState({
+                videos: response.data.items,
+                selectedVideo: response.data.items[0]
+            });
+        }catch(error) {
+            console.log(error)
+            this.setState({error: true})
+        }
         
-        this.setState({
-            videos: response.data.items,
-            selectedVideo: response.data.items[0]
-        });
-        console.log(this.state.videos);
+        
+        
         // fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&key=AIzaSyCj2c6yHhwzGRR-r9NcjxP9r5NJH_Yu44c&q=' + term)
         // .then(resp => resp.json())
         // .then((resp) => {
@@ -51,7 +59,7 @@ class App extends React.Component {
                 <div className="ui grid">
                     <div className="ui row">
                         <div className="eleven wide column">
-                            <VideoDetail video={this.state.selectedVideo}/>
+                            <VideoDetail video={this.state.selectedVideo} error={this.state.error} />
                         </div>
                         <div className="five wide column">
                             <VideoList onVideoSelect={this.onVideoSelect} videos={this.state.videos}/>

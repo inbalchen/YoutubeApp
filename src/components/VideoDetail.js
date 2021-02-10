@@ -1,7 +1,11 @@
 import React from 'react';
 
 const VideoDetail = (props) => {
-    if(!props.video){
+
+    if(props.error){
+        return <div style={{color: 'red'}}>Sorry! Service unavailable. Please try later. </div>
+    }
+    else if(!props.video){
         return <div>Loading..</div>
     }
 
