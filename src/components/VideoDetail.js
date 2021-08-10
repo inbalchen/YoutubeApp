@@ -16,7 +16,7 @@ const VideoDetail = (props) => {
             <div className="ui embed">
                 <iframe title="video-player" src={videoSrc}/>
             </div>
-            <div className="ui segment">
+            <div className="ui segment snippet-info">
                 <h4 className="ui header">{props.video.snippet.title}</h4>
                 <p>{props.video.snippet.description}</p>
             </div>
