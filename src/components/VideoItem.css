@@ -19,6 +19,16 @@
     z-index: 1;
 }
 
+.error-message {
+    margin-top: 5px;
+    color: red;
+    font-size: 12px;
+}
+
+.field {
+    margin-bottom: 0 !important;
+}
+
 .app {
     margin: 150px 0;
 }

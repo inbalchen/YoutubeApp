@@ -4,6 +4,7 @@ import search from "../assets/images/search.svg";
 class SearchBar extends React.Component {
   state = {
     term: "",
+    error: false
   };
 
   onInputChange = (event) => {
@@ -12,7 +13,11 @@ class SearchBar extends React.Component {
 
   onFormSubmit = (event) => {
     event.preventDefault();
-    this.props.onFormSubmit(this.state.term);
+    if(this.state.term) {
+      this.props.onFormSubmit(this.state.term);
+    }else {
+      this.setState({error: true})
+    }
   };
 
   render() {
@@ -20,19 +25,20 @@ class SearchBar extends React.Component {
       <div className="search-bar ui segment">
         <form onSubmit={this.onFormSubmit} className="ui form">
           <div className="field">
-            <label>Video Search</label>
+            <h2>Video Search</h2>
             <div className="input-container">
             <input
               type="text"
               className="input"
               value={this.state.term}
               onChange={this.onInputChange}
-              placeholder="Search.."
+              placeholder="Search"
             />
-            <img className="input_img" src={search} alt="search" />
+              <img className="input_img" onClick={this.onFormSubmit} src={search} alt="search" />
             </div>
             
           </div>
+          {this.state.error && <div className="error-message">Enter valid input</div>}
         </form>
       </div>
     );
