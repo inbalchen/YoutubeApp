@@ -5,9 +5,6 @@ const VideoDetail = (props) => {
     if(props.error){
         return <div style={{color: 'red'}}>Sorry! Service unavailable. Please try later. </div>
     }
-    else if(!props.video){
-        return <div>Loading..</div>
-    }
 
     const videoSrc = `https://www.youtube.com/embed/${props.video.id.videoId}`
 

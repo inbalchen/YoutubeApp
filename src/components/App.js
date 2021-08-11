@@ -9,7 +9,8 @@ class App extends React.Component {
     state = {
         videos: [],
         selectedVideo: null,
-        error: false
+        error: false,
+        width: '10%'
     };
 
     componentDidMount() {
@@ -18,6 +19,7 @@ class App extends React.Component {
 
     onTermSubmit = async (term) => {
         try {
+            
             const response = await youtube.get('/search', {
                 params:{
                     id: "7lCDEYXw3mM",
@@ -27,9 +29,11 @@ class App extends React.Component {
                     q: term
                 }
             });
+            this.setState({width: '60%'})
             this.setState({
                 videos: response.data.items,
-                selectedVideo: response.data.items[0]
+                selectedVideo: response.data.items[0],
+                width: '100%'
             });
         }catch(error) {
             console.log(error)
@@ -56,7 +60,7 @@ class App extends React.Component {
         return (
             <div className="ui container app">
                 <SearchBar onFormSubmit={this.onTermSubmit}/>
-                <div className="ui grid">
+                {this.state.videos.length > 0 ? <div className="ui grid">
                     <div className="ui stackable row">
                         <div className="eleven wide column">
                             <VideoDetail video={this.state.selectedVideo} error={this.state.error} />
@@ -65,9 +69,12 @@ class App extends React.Component {
                             <VideoList onVideoSelect={this.onVideoSelect} videos={this.state.videos}/>
                         </div>
                     </div>
-                </div>
-                
-                
+                </div> : 
+                <div class="ui progress">
+                    <div class="bar" style={{width: this.state.width, transition: 'width 2s ease-in-out'}}>
+                        <div class="progress"></div>
+                    </div>
+                </div>}
             </div>
         );
     }
